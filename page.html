@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Agora foi</h1>
+    <label for=""> Digite seu cep:</label>
+    <input type="text" id="inputCep" required>
+    <button id="btn">Pegar CEP </button> <br>
+    <div id="div">
+        <h3>Se der certo aqui retornará os resultados da api</h3>
+    </div>
+
+
+    <script>
+        
+        const cidade = document.createElement('p')
+        const rua = document.createElement('p')
+        const estado = document.createElement('p')
+        const latitude = document.createElement('p')
+        const longitude = document.createElement('p')
+        let element = document.getElementById('btn')
+        element.addEventListener("click", () => {
+            let meuCep = document.getElementById('inputCep').value
+            pegaCep(meuCep)
+            
+        })
+        async function pegaCep(cep) {
+            endereco = await (await fetch(`https://brasilapi.com.br/api/cep/v2/${cep}`)).json()
+            console.log(endereco)
+            if(endereco.city){
+            document.getElementById('div').appendChild(cidade)
+            cidade.innerHTML = "Cidade: " + endereco.city
+            document.getElementById('div').appendChild(rua)
+            rua.innerHTML ="Rua: " + endereco.street
+            document.getElementById('div').appendChild(estado)
+            estado.innerHTML ="Estado: " + endereco.state
+            document.getElementById('div').appendChild(latitude)
+            latitude.innerHTML = "Latitude: " + endereco.location.coordinates.latitude
+            document.getElementById('div').appendChild(longitude)
+            longitude.innerHTML = "Longitude: " + endereco.location.coordinates.longitude
+
+            }else {
+                console.log("Aonde você mora????")
+
+            }
+
+        }
+    </script>
+</body>
+
+</html>
